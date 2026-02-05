@@ -150,5 +150,85 @@
     "code": "<div>\n  <span style='___: red;'>Attenzione:</span> Errore di sistema.\n</div>",
     "answer": "color",
     "desc": "La proprietà CSS 'color' definisce il colore del testo dell'elemento."
+  },
+  {
+    "id": 601,
+    "category": "cpp",
+    "question": "Variabili: Inizializza una variabile intera assegnandole il valore 10.",
+    "code": "int numero ___ 10;",
+    "answer": "=",
+    "desc": "L'operatore '=' serve per l'assegnazione: mette il valore a destra dentro la variabile a sinistra."
+  },
+  {
+    "id": 602,
+    "category": "cpp",
+    "question": "Tipi di dato: Definisci una variabile che può contenere solo 'true' o 'false'.",
+    "code": "___ lampadinaAccesa = true;",
+    "answer": "bool",
+    "desc": "Il tipo 'bool' (booleano) occupa pochissima memoria e gestisce solo due stati: vero (1) o falso (0)."
+  },
+  {
+    "id": 603,
+    "category": "cpp",
+    "question": "Array: Accedi al PRIMO elemento dell'array 'voti'.",
+    "code": "int voti[] = {8, 9, 7};\ncout << voti[___]; // Stampa 8",
+    "answer": "0",
+    "desc": "In C++ (e in quasi tutti i linguaggi), gli indici degli array partono sempre da 0."
+  },
+  {
+    "id": 604,
+    "category": "cpp",
+    "question": "Funzioni Void: Definisci una funzione che stampa un messaggio ma NON restituisce nessun valore.",
+    "code": "___ saluta() {\n    cout << \"Ciao!\";\n}",
+    "answer": "void",
+    "desc": "La parola chiave 'void' indica che la funzione esegue un'azione ma non ha un valore di ritorno (return)."
+  },
+  {
+    "id": 605,
+    "category": "cpp",
+    "question": "Tipi Decimali: Quale tipo di variabile serve per memorizzare un numero con la virgola?",
+    "code": "___ prezzo = 9.99;",
+    "answer": "double",
+    "desc": "'double' (o float) è il tipo di dato standard per rappresentare numeri in virgola mobile."
+  },
+  {
+    "id": 606,
+    "category": "cpp",
+    "question": "Confronto: Verifica se la variabile 'x' è UGUALE a 5 dentro la condizione if.",
+    "code": "int x = 5;\nif (x ___ 5) {\n    cout << \"X vale 5\";\n}",
+    "answer": "==",
+    "desc": "Attenzione: '=' è per assegnare, '==' (doppio uguale) serve per confrontare se due valori sono identici."
+  },
+  {
+    "id": 607,
+    "category": "cpp",
+    "question": "Costanti: Dichiara una variabile il cui valore NON potrà mai essere modificato.",
+    "code": "___ int MAX_VITE = 3;",
+    "answer": "const",
+    "desc": "La parola chiave 'const' blocca la variabile in sola lettura. Provare a cambiarla genererà un errore."
+  },
+  {
+    "id": 608,
+    "category": "cpp",
+    "question": "Parametri Funzione: Separa i due argomenti (intero e double) nella definizione della funzione.",
+    "code": "void calcola(int a ___ double b) {\n    // codice...\n}",
+    "answer": ",",
+    "desc": "La virgola (,) viene utilizzata per separare i parametri all'interno delle parentesi tonde di una funzione."
+  },
+  {
+    "id": 609,
+    "category": "cpp",
+    "question": "Stringhe: Dichiara una variabile per contenere del testo.",
+    "code": "___ nome = \"Mario\";",
+    "answer": "string",
+    "desc": "Il tipo 'string' (della libreria standard) è usato per sequenze di caratteri testuali."
+  },
+  {
+    "id": 610,
+    "category": "cpp",
+    "question": "Array Modifica: Cambia il valore del SECONDO elemento dell'array (che attualmente è 20).",
+    "code": "int numeri[] = {10, 20, 30};\nnumeri[___] = 99; // Ora è {10, 99, 30}",
+    "answer": "1",
+    "desc": "Poiché l'indice parte da 0, il secondo elemento si trova sempre all'indice 1."
   }
 ]
