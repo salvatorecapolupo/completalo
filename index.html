@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Quiz: Code Completion</title>
+    <style>
+        :root {
+            --bg: #1e1e1e;       /* Dark VS Code style */
+            --card: #252526;
+            --text: #d4d4d4;
+            --accent: #007acc;   /* VS Code Blue */
+            --success: #4ec9b0;
+            --error: #f48771;
+            --code-bg: #101010;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        h1 { color: var(--accent); margin-bottom: 10px; }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        select, button {
+            padding: 8px 15px;
+            background: var(--card);
+            color: white;
+            border: 1px solid #444;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover { background: #333; }
+        button.primary { background: var(--accent); border-color: var(--accent); }
+        button.primary:hover { background: #005fa3; }
+
+        /* Contenitore Quiz */
+        .quiz-container {
+            background-color: var(--card);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 700px;
+            border: 1px solid #333;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        /* Blocco di Codice */
+        .code-block {
+            background-color: var(--code-bg);
+            padding: 20px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1.1rem;
+            white-space: pre-wrap; /* Mantiene a capo */
+            border-left: 4px solid var(--accent);
+            position: relative;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        /* Input dentro il codice */
+        .code-input {
+            background: transparent;
+            color: var(--accent);
+            border: none;
+            border-bottom: 2px solid #555;
+            font-family: inherit;
+            font-size: inherit;
+            width: 80px;
+            text-align: center;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-bottom-color: var(--accent);
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Stati di validazione */
+        .code-input.correct {
+            color: var(--bg);
+            background-color: var(--success);
+            border-bottom-color: var(--success);
+        }
+
+        .code-input.wrong {
+            color: var(--bg);
+            background-color: var(--error);
+            border-bottom-color: var(--error);
+        }
+
+        /* Feedback Area */
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none; /* Nascosto di default */
+        }
+        .feedback.success { background: rgba(78, 201, 176, 0.2); border: 1px solid var(--success); }
+        .feedback.error { background: rgba(244, 135, 113, 0.2); border: 1px solid var(--error); }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .stats {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Code Completion Dojo</h1>
+
+    <div class="controls">
+        <label for="langSelect">Argomento:</label>
+        <select id="langSelect" onchange="Quiz.setCategory(this.value)">
+            <option value="all">Misto (Tutto)</option>
+            <option value="html" selected>HTML5</option>
+            <option value="cpp">C++</option>
+        </select>
+        <div class="stats">Punteggio: <span id="score">0</span></div>
+    </div>
+
+    <div class="quiz-container">
+        <div id="questionText" class="question-text">Caricamento...</div>
+
+        <div class="code-block" id="codeArea">
+            </div>
+
+        <div class="btn-group">
+            <button onclick="Quiz.check()" id="btnCheck" class="primary">Controlla Risposta</button>
+            <button onclick="Quiz.next()" id="btnNext" style="display:none">Prossima Domanda &rarr;</button>
+        </div>
+
+        <div id="feedbackArea" class="feedback"></div>
+    </div>
+
+<script>
+    /* * ==========================================
+     * DATABASE DOMANDE (JSON EDITABILE)
+     * ==========================================
+     * Istruzioni per modificare:
+     * 1. 'category': 'html' o 'cpp'
+     * 2. 'code': Il codice. Usa "___" (tre underscore) dove vuoi il buco.
+     * 3. 'answer': La risposta corretta.
+     * 4. 'desc': Spiegazione che appare dopo la risposta.
+     */
+    
+    const QUESTIONS_DB = [
+        // --- HTML ---
+        {
+            id: 1,
+            category: "html",
+            question: "Completa il tag per inserire un'immagine con testo alternativo.",
+            code: "<img src='foto.jpg' ___='Descrizione foto'>",
+            answer: "alt",
+            desc: "L'attributo 'alt' è obbligatorio per l'accessibilità e la SEO."
+        },
+        {
+            id: 2,
+            category: "html",
+            question: "Specifica che il link deve aprirsi in una nuova scheda.",
+            code: "<a href='site.com' target='___'>Link Esterno</a>",
+            answer: "_blank",
+            desc: "_blank forza il browser ad aprire una nuova tab o finestra."
+        },
+        {
+            id: 3,
+            category: "html",
+            question: "Definisci la lingua principale del documento HTML.",
+            code: "<html ___='it'>\n  ...\n</html>",
+            answer: "lang",
+            desc: "L'attributo 'lang' aiuta i motori di ricerca e gli screen reader."
+        },
+        {
+            id: 4,
+            category: "html",
+            question: "Crea un campo di input che è obbligatorio compilare.",
+            code: "<input type='text' ___ >",
+            answer: "required",
+            desc: "L'attributo booleano 'required' impedisce l'invio del form se il campo è vuoto."
+        },
+        {
+            id: 5,
+            category: "html",
+            question: "Collega un foglio di stile esterno.",
+            code: "<link rel='stylesheet' ___='style.css'>",
+            answer: "href",
+            desc: "Nel tag <link>, 'href' specifica il percorso del file CSS."
+        },
+
+        // --- C++ (Esempi non banali) ---
+        {
+            id: 101,
+            category: "cpp",
+            question: "Stampa 'Hello' sulla console standard usando namespace std.",
+            code: "#include <iostream>\n\nint main() {\n  std::___ << \"Hello\";\n  return 0;\n}",
+            answer: "cout",
+            desc: "std::cout è l'oggetto standard per l'output stream in C++."
+        },
+        {
+            id: 102,
+            category: "cpp",
+            question: "Dichiara un puntatore a un intero.",
+            code: "int number = 10;\nint ___ ptr = &number;",
+            answer: "*",
+            desc: "L'asterisco (*) viene usato per dichiarare una variabile puntatore."
+        },
+        {
+            id: 103,
+            category: "cpp",
+            question: "Eredita pubblicamente da una classe base.",
+            code: "class Cane : ___ Animale {\n  // corpo classe\n};",
+            answer: "public",
+            desc: "In C++, devi specificare il modificatore di accesso (public, private, protected) per l'ereditarietà."
+        },
+        {
+            id: 104,
+            category: "cpp",
+            question: "Usa la keyword corretta per una funzione che non ritorna nulla.",
+            code: "___ stampaMenu() {\n  // codice...\n}",
+            answer: "void",
+            desc: "Void indica che la funzione non restituisce alcun valore."
+        },
+        {
+            id: 105,
+            category: "cpp",
+            question: "Allocazione dinamica di memoria per un intero.",
+            code: "int* p = ___ int;",
+            answer: "new",
+            desc: "L'operatore 'new' alloca memoria nell'heap."
+        }
+    ];
+
+    /* * ==========================================
+     * MOTORE DEL QUIZ (GAME ENGINE)
+     * ==========================================
+     */
+    const Quiz = {
+        pool: [],
+        currentQ: null,
+        score: 0,
+        
+        // Inizializza o cambia categoria
+        setCategory: function(cat) {
+            // Filtra le domande
+            if (cat === 'all') {
+                this.pool = [...QUESTIONS_DB];
+            } else {
+                this.pool = QUESTIONS_DB.filter(q => q.category === cat);
+            }
+            
+            // Mischia (Shuffle Fisher-Yates)
+            for (let i = this.pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [this.pool[i], this.pool[j]] = [this.pool[j], this.pool[i]];
+            }
+
+            if (this.pool.length === 0) {
+                alert("Nessuna domanda trovata per questa categoria!");
+                return;
+            }
+
+            this.score = 0;
+            document.getElementById('score').innerText = 0;
+            this.next();
+        },
+
+        // Carica la prossima domanda
+        next: function() {
+            if (this.pool.length === 0) {
+                this.endGame();
+                return;
+            }
+
+            // Pesca l'ultima domanda dell'array mischiato
+            this.currentQ = this.pool.pop();
+
+            // Renderizza UI
+            document.getElementById('questionText').innerText = this.currentQ.question;
+            
+            // RESET UI
+            const codeContainer = document.getElementById('codeArea');
+            const feedback = document.getElementById('feedbackArea');
+            const btnCheck = document.getElementById('btnCheck');
+            const btnNext = document.getElementById('btnNext');
+
+            feedback.style.display = 'none';
+            feedback.className = 'feedback';
+            btnCheck.style.display = 'inline-block';
+            btnNext.style.display = 'none';
+
+            // Costruzione del Codice con Input
+            // Dividiamo la stringa dove c'è "___"
+            const parts = this.currentQ.code.split('___');
+            
+            // Creiamo HTML sicuro (escape caratteri speciali come < e >)
+            const safePart1 = this.escapeHtml(parts[0]);
+            const safePart2 = this.escapeHtml(parts[1]);
+
+            // Inseriamo l'input nel mezzo
+            codeContainer.innerHTML = `${safePart1}<input type="text" id="userInput" class="code-input" autocomplete="off" spellcheck="false">${safePart2}`;
+            
+            // Focus automatico sull'input e listener per tasto Enter
+            const input = document.getElementById('userInput');
+            input.focus();
+            input.addEventListener('keypress', function(e) {
+                if(e.key === 'Enter') Quiz.check();
+            });
+        },
+
+        // Verifica risposta
+        check: function() {
+            const input = document.getElementById('userInput');
+            const val = input.value.trim();
+            const feedback = document.getElementById('feedbackArea');
+            const btnCheck = document.getElementById('btnCheck');
+            const btnNext = document.getElementById('btnNext');
+
+            if(!val) return; // Ignora se vuoto
+
+            // Controllo Case Insensitive per HTML, Sensitive (solitamente) per C++
+            // Ma per semplicità didattica, facciamo case-insensitive o exact match a seconda del bisogno.
+            // Qui uso case-insensitive generale per tolleranza, ma puoi cambiarlo.
+            const isCorrect = val.toLowerCase() === this.currentQ.answer.toLowerCase();
+
+            input.disabled = true; // Blocca input
+            feedback.style.display = 'block';
+
+            if (isCorrect) {
+                // Successo
+                input.classList.add('correct');
+                feedback.classList.add('success');
+                feedback.classList.remove('error');
+                feedback.innerHTML = `<strong>Corretto!</strong> ${this.currentQ.desc}`;
+                this.score += 10;
+                document.getElementById('score').innerText = this.score;
+            } else {
+                // Errore
+                input.classList.add('wrong');
+                feedback.classList.add('error');
+                feedback.classList.remove('success');
+                feedback.innerHTML = `<strong>Sbagliato!</strong> La risposta corretta era <code>${this.currentQ.answer}</code>.<br><br><em>${this.currentQ.desc}</em>`;
+            }
+
+            // Scambio bottoni
+            btnCheck.style.display = 'none';
+            btnNext.style.display = 'inline-block';
+            btnNext.focus();
+        },
+
+        endGame: function() {
+            const container = document.querySelector('.quiz-container');
+            container.innerHTML = `
+                <div style="text-align:center">
+                    <h2>Quiz Completato!</h2>
+                    <p>Punteggio finale: <strong>${this.score}</strong></p>
+                    <button onclick="location.reload()" class="primary">Ricomincia</button>
+                </div>
+            `;
+        },
+
+        // Utility per sicurezza HTML
+        escapeHtml: function(text) {
+            if (!text) return "";
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    };
+
+    // Avvio iniziale (HTML default)
+    Quiz.setCategory('html');
+
+</script>
+
+</body>
+</html>
