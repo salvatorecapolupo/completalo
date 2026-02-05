@@ -311,5 +311,85 @@
     "code": "int numeri[] = {10, 20, 30};\nnumeri[___] = 99; // Ora è {10, 99, 30}",
     "answer": "1",
     "desc": "Poiché l'indice parte da 0, il secondo elemento si trova sempre all'indice 1."
+  },
+  {
+    "id": 901,
+    "category": "cpp",
+    "question": "Implicazione Logica: Se piove E non ho l'ombrello, allora mi bagno. (Congiunzione)",
+    "code": "bool piove = true;\nbool hoOmbrello = false;\nif (piove ___ !hoOmbrello) {\n    cout << \"Mi bagno\";\n}",
+    "answer": "&&",
+    "desc": "Affinché l'evento 'Mi bagno' accada, entrambe le proposizioni (Piove) e (NON ho ombrello) devono essere vere contemporaneamente."
+  },
+  {
+    "id": 902,
+    "category": "cpp",
+    "question": "Disgiunzione (OR): Compro la casa se ho i soldi OPPURE se ottengo un mutuo.",
+    "code": "bool contanti = false;\nbool mutuo = true;\nif (contanti ___ mutuo) {\n    cout << \"Compro Casa\";\n}",
+    "answer": "||",
+    "desc": "La logica 'OR' (||) rende vera l'espressione se almeno una delle due premesse è soddisfatta."
+  },
+  {
+    "id": 903,
+    "category": "cpp",
+    "question": "Negazione (NOT): Entro nel ciclo solo se il serbatoio NON è vuoto.",
+    "code": "bool vuoto = false;\nwhile (___vuoto) {\n    guida();\n}",
+    "answer": "!",
+    "desc": "L'operatore '!' inverte il valore di verità. Se 'vuoto' è Falso, '!vuoto' diventa Vero, permettendo l'ingresso nel while."
+  },
+  {
+    "id": 904,
+    "category": "cpp",
+    "question": "Range Check: Verifica che il valore x sia compreso tra 10 e 20 (inclusi).",
+    "code": "if (x >= 10 ___ x <= 20) {\n    cout << \"Valido\";\n}",
+    "answer": "&&",
+    "desc": "In logica formale, un intervallo chiuso richiede che x sia maggiore del minimo E contemporaneamente minore del massimo."
+  },
+  {
+    "id": 905,
+    "category": "cpp",
+    "question": "Logica Tricky (De Morgan): Non voglio né tè né caffè. (Equivale a: NON (tè OR caffè)).",
+    "code": "bool te = false;\nbool caffe = false;\nif (!te ___ !caffe) {\n    cout << \"Bevo acqua\";\n}",
+    "answer": "&&",
+    "desc": "Dire 'né questo né quello' equivale a dire 'non questo E non quello'. (!A && !B) è logicamente uguale a !(A || B)."
+  },
+  {
+    "id": 906,
+    "category": "cpp",
+    "question": "Priorità Operatori: Entro se è sabato OPPURE se è domenica, E se c'è il sole.",
+    "code": "if ((sabato || domenica) ___ sole) {\n    cout << \"Gita fuori porta\";\n}",
+    "answer": "&&",
+    "desc": "Le parentesi raggruppano i giorni (weekend). La condizione finale richiede che il blocco 'weekend' sia vero E che ci sia il sole."
+  },
+  {
+    "id": 907,
+    "category": "cpp",
+    "question": "Condizione 'Unless' (A meno che): Accendi il riscaldamento se fa freddo, a meno che la finestra non sia aperta.",
+    "code": "if (faFreddo && ___finestraAperta) {\n    accendi();\n}",
+    "answer": "!",
+    "desc": "Logicamente, 'A a meno che B' si traduce spesso in 'A E NON B'. Accendo solo se fa freddo e la finestra NON è aperta."
+  },
+  {
+    "id": 908,
+    "category": "cpp",
+    "question": "Disgiunzione Esclusiva (Simulata): O guidi tu, o guido io (ma non entrambi). Verifica che 'guidoIo' sia diverso da 'guidiTu'.",
+    "code": "bool io = true, tu = false;\nif (io ___ tu) {\n    cout << \"Si parte\";\n} else {\n    cout << \"Confusione alla guida\";\n}",
+    "answer": "!=",
+    "desc": "Nei booleani, l'operatore 'diverso' (!=) agisce come uno XOR (OR esclusivo): è vero solo se uno è true e l'altro è false."
+  },
+  {
+    "id": 909,
+    "category": "cpp",
+    "question": "Validazione Input: Accetta il numero se NON è negativo (Logica inversa).",
+    "code": "int n = 5;\nif (___(n < 0)) {\n    cout << \"Numero accettato\";\n}",
+    "answer": "!",
+    "desc": "Stiamo negando la proposizione 'n minore di 0'. Se n è 5, (n < 0) è Falso. Il ! iniziale lo rende Vero."
+  },
+  {
+    "id": 910,
+    "category": "cpp",
+    "question": "Cortocircuito Logico: Verifica se il puntatore è valido PRIMA di controllarne il valore (Safety check).",
+    "code": "if (ptr != NULL ___ *ptr > 0) {\n    cout << \"Valore positivo\";\n}",
+    "answer": "&&",
+    "desc": "Fondamentale in C++: se il primo termine dell'AND è falso, il secondo non viene valutato, evitando crash (Segmentation Fault)."
   }
 ]
