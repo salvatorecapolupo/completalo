@@ -70,5 +70,85 @@
     "code": "int arr[] = {10, 20, 30, 40};\nint* ptr = arr;\nint terzo = *(ptr + ___);",
     "answer": "2",
     "desc": "ptr punta all'indice 0. Aggiungendo 2 all'indirizzo (ptr + 2) e dereferenziando (*), otteniamo il valore all'indice 2 (il terzo elemento)."
+  },
+  {
+    "id": 401,
+    "category": "cpp",
+    "question": "Input/Output: Richiedi un valore all'utente e salvalo nella variabile 'eta'.",
+    "code": "int eta;\ncout << \"Quanti anni hai?\";\ncin ___ eta;",
+    "answer": ">>",
+    "desc": "L'operatore di estrazione (>>) serve per prendere dati dallo stream di input (cin) e metterli in una variabile."
+  },
+  {
+    "id": 402,
+    "category": "cpp",
+    "question": "Aritmetica: Calcola la divisione tra due variabili (presta attenzione al tipo di risultato).",
+    "code": "double a = 10.0, b = 4.0;\ndouble risultato = a ___ b;",
+    "answer": "/",
+    "desc": "L'operatore '/' esegue la divisione. Poiché le variabili sono double, il risultato includerà i decimali."
+  },
+  {
+    "id": 403,
+    "category": "cpp",
+    "question": "Accumulatore: Somma 4 variabili (a, b, c, d) usando l'operatore di assegnazione composta.",
+    "code": "int totale = a + b + c;\ntotale ___= d;",
+    "answer": "+",
+    "desc": "L'operatore '+=' aggiunge il valore di destra alla variabile di sinistra (totale = totale + d)."
+  },
+  {
+    "id": 404,
+    "category": "cpp",
+    "question": "Stampa Semplice: Mostra il valore della variabile 'punteggio' a schermo.",
+    "code": "int punteggio = 100;\ncout ___ punteggio;",
+    "answer": "<<",
+    "desc": "L'operatore di inserimento (<<) spinge il dato verso lo stream di output (cout)."
+  },
+  {
+    "id": 405,
+    "category": "cpp",
+    "question": "Calcolo e Stampa: Somma due numeri direttamente all'interno del comando di stampa.",
+    "code": "int x = 5, y = 3;\ncout << \"La somma e': \" << (x ___ y) << endl;",
+    "answer": "+",
+    "desc": "Puoi eseguire operazioni matematiche direttamente nel flusso di cout, meglio se tra parentesi."
+  },
+  {
+    "id": 406,
+    "category": "cpp",
+    "question": "Swap Classico: Scambia il valore di due variabili 'a' e 'b' usando una variabile temporanea.",
+    "code": "int temp = a;\na = b;\nb = ___;",
+    "answer": "temp",
+    "desc": "Per completare lo scambio, 'b' deve ricevere il valore originale di 'a', che avevamo salvato in 'temp'."
+  },
+  {
+    "id": 407,
+    "category": "cpp",
+    "question": "Swap Circolare (3 variabili): Sposta A in B, B in C, e C in A.",
+    "code": "int temp = a;\na = b;\nb = c;\nc = ___;",
+    "answer": "temp",
+    "desc": "In uno shift circolare (A<-B<-C<-A), l'ultimo elemento (c) deve ricevere il valore del primo salvato (temp)."
+  },
+  {
+    "id": 408,
+    "category": "cpp",
+    "question": "Cicli: Esegui un loop esattamente 5 volte (da 0 a 4) per stampare 'ciao'.",
+    "code": "for (int i = 0; i ___ 5; i++) {\n    cout << \"ciao\" << endl;\n}",
+    "answer": "<",
+    "desc": "Partendo da 0, la condizione i < 5 garantisce esattamente 5 iterazioni (0, 1, 2, 3, 4)."
+  },
+  {
+    "id": 501,
+    "category": "html",
+    "question": "Inline Style: Applica uno stile CSS direttamente nel tag per colorare il testo.",
+    "code": "<p ___='color: blue; font-weight: bold;'>Testo colorato</p>",
+    "answer": "style",
+    "desc": "L'attributo 'style' permette di iniettare regole CSS direttamente nel singolo elemento HTML."
+  },
+  {
+    "id": 502,
+    "category": "html",
+    "question": "Struttura Annidata: Inserisci uno span con stile dentro un div.",
+    "code": "<div>\n  <span style='___: red;'>Attenzione:</span> Errore di sistema.\n</div>",
+    "answer": "color",
+    "desc": "La proprietà CSS 'color' definisce il colore del testo dell'elemento."
   }
 ]
