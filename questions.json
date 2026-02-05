@@ -1,5 +1,86 @@
 [
   {
+    "id": 701,
+    "category": "cpp",
+    "question": "Operatori Logici: La condizione deve essere vera se ENTRAMBE le variabili (sole E mare) sono vere.",
+    "code": "bool sole = true;\nbool mare = true;\nif (sole ___ mare) {\n    cout << \"Vado in spiaggia\";\n}",
+    "answer": "&&",
+    "desc": "L'operatore '&&' (AND logico) restituisce true solo se tutti gli operandi sono veri."
+  },
+  {
+    "id": 702,
+    "category": "cpp",
+    "question": "Resto della Divisione: Calcola il resto della divisione intera (10 diviso 3 fa 3 con resto di 1).",
+    "code": "int resto = 10 ___ 3; // La variabile varrà 1",
+    "answer": "%",
+    "desc": "L'operatore modulo (%) restituisce il resto di una divisione intera. Fondamentale per capire se un numero è pari o dispari."
+  },
+  {
+    "id": 703,
+    "category": "cpp",
+    "question": "Incremento: Aumenta il valore della variabile 'conta' di 1 unità in modo rapido.",
+    "code": "int conta = 0;\nconta___;",
+    "answer": "++",
+    "desc": "L'operatore di incremento postfisso (++) è una scorciatoia per scrivere 'conta = conta + 1'."
+  },
+  {
+    "id": 704,
+    "category": "cpp",
+    "question": "Strutture di Controllo: Esegui il blocco di codice alternativo se la condizione 'if' è falsa.",
+    "code": "if (voto >= 6) {\n    cout << \"Promosso\";\n} ___ {\n    cout << \"Bocciato\";\n}",
+    "answer": "else",
+    "desc": "La parola chiave 'else' gestisce il caso in cui la condizione dell'if non viene soddisfatta."
+  },
+  {
+    "id": 705,
+    "category": "cpp",
+    "question": "Ciclo While: Ripeti il blocco finché la variabile 'x' è maggiore di 0.",
+    "code": "int x = 5;\n___ (x > 0) {\n    cout << x;\n    x--;\n}",
+    "answer": "while",
+    "desc": "Il ciclo 'while' continua a eseguire il codice al suo interno fintanto che la condizione tra parentesi rimane vera."
+  },
+  {
+    "id": 706,
+    "category": "html",
+    "question": "Liste Puntate: Definisci una lista NON ordinata (pallini).",
+    "code": "<___>\n  <li>Latte</li>\n  <li>Caffè</li>\n</___>",
+    "answer": "ul",
+    "desc": "Il tag <ul> (Unordered List) crea un elenco puntato. Per elenchi numerati si usa <ol>."
+  },
+  {
+    "id": 707,
+    "category": "html",
+    "question": "Classi CSS: Assegna l'identificativo di gruppo 'box' all'elemento per lo stile CSS.",
+    "code": "<div ___='box'>Contenuto</div>",
+    "answer": "class",
+    "desc": "L'attributo 'class' permette di associare uno o più nomi di classe all'elemento, per applicare stili CSS a più elementi contemporaneamente."
+  },
+  {
+    "id": 708,
+    "category": "html",
+    "question": "Input Interattivo: Crea una casella di controllo che l'utente può spuntare.",
+    "code": "<label>\n  <input type='___' name='accetto'> Accetto i termini\n</label>",
+    "answer": "checkbox",
+    "desc": "Il tipo 'checkbox' crea un quadratino selezionabile, utile per opzioni binarie (sì/no) o selezioni multiple."
+  },
+  {
+    "id": 709,
+    "category": "html",
+    "question": "Email Link: Crea un collegamento che apre direttamente il programma di posta elettronica.",
+    "code": "<a href='___:info@sito.com'>Contattaci</a>",
+    "answer": "mailto",
+    "desc": "Il protocollo 'mailto:' all'interno di href dice al browser di aprire il client di posta predefinito."
+  },
+  {
+    "id": 710,
+    "category": "html",
+    "question": "Stato Elemento: Disabilita il pulsante in modo che non possa essere cliccato.",
+    "code": "<button type='button' ___ >Non premere</button>",
+    "answer": "disabled",
+    "desc": "L'attributo booleano 'disabled' rende l'elemento inattivo e spesso lo mostra visivamente in grigio."
+  }
+,
+  {
     "id": 101,
     "category": "html",
     "question": "Struttura Tabella Complessa: Unisci due colonne nell'intestazione (livello 4 di annidamento).",
