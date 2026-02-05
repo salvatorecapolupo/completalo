@@ -3,409 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dev Quiz: Code Completion</title>
+    <title>Logic & Syntax Dojo</title>
     <style>
         :root {
-            --bg: #1e1e1e;       /* Dark VS Code style */
-            --card: #252526;
-            --text: #d4d4d4;
-            --accent: #007acc;   /* VS Code Blue */
+            --bg: #1e1e1e;
+            --card: #2d2d2d;
+            --text: #e0e0e0;
+            --accent: #4fc1ff; /* Light Blue */
+            --string: #ce9178;
+            --keyword: #569cd6;
+            --comment: #6a9955;
             --success: #4ec9b0;
-            --error: #f48771;
-            --code-bg: #101010;
+            --error: #f44747;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', monospace;
             background-color: var(--bg);
             color: var(--text);
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 20px;
-            margin: 0;
             min-height: 100vh;
+            margin: 0;
         }
 
-        h1 { color: var(--accent); margin-bottom: 10px; }
+        .main-interface {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
 
-        .controls {
-            margin-bottom: 20px;
+        /* Header e Controlli */
+        header {
             display: flex;
-            gap: 10px;
+            justify-content: space-between;
             align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 15px;
         }
 
-        select, button {
-            padding: 8px 15px;
+        select {
             background: var(--card);
             color: white;
-            border: 1px solid #444;
+            padding: 8px 12px;
+            border: 1px solid #555;
             border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
+            font-family: inherit;
         }
 
-        button:hover { background: #333; }
-        button.primary { background: var(--accent); border-color: var(--accent); }
-        button.primary:hover { background: #005fa3; }
-
-        /* Contenitore Quiz */
-        .quiz-container {
+        /* Area Codice */
+        .code-card {
             background-color: var(--card);
-            padding: 25px;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            width: 100%;
-            max-width: 700px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
             border: 1px solid #333;
+            position: relative;
+        }
+
+        .card-header {
+            background: #252526;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
         }
 
         .question-text {
+            padding: 20px;
             font-size: 1.1rem;
-            margin-bottom: 15px;
-            line-height: 1.5;
+            border-bottom: 1px solid #333;
         }
 
-        /* Blocco di Codice */
-        .code-block {
-            background-color: var(--code-bg);
-            padding: 20px;
-            border-radius: 6px;
+        .code-display {
+            padding: 25px;
+            background: #1e1e1e;
+            color: #d4d4d4;
             font-family: 'Consolas', 'Courier New', monospace;
             font-size: 1.1rem;
-            white-space: pre-wrap; /* Mantiene a capo */
-            border-left: 4px solid var(--accent);
-            position: relative;
+            line-height: 1.6;
+            white-space: pre-wrap;
             overflow-x: auto;
-            margin-bottom: 20px;
         }
 
-        /* Input dentro il codice */
-        .code-input {
+        /* Input stile "Gap" */
+        input.gap {
             background: transparent;
-            color: var(--accent);
             border: none;
-            border-bottom: 2px solid #555;
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
             font-family: inherit;
             font-size: inherit;
+            font-weight: bold;
             width: 80px;
             text-align: center;
-            font-weight: bold;
-            padding: 0 5px;
-        }
-
-        .code-input:focus {
             outline: none;
-            border-bottom-color: var(--accent);
-            background: rgba(255,255,255,0.05);
+            transition: 0.3s;
         }
+        
+        input.gap:focus { background: rgba(79, 193, 255, 0.1); }
+        input.gap.correct { border-color: var(--success); color: var(--success); }
+        input.gap.wrong { border-color: var(--error); color: var(--error); }
 
-        /* Stati di validazione */
-        .code-input.correct {
-            color: var(--bg);
-            background-color: var(--success);
-            border-bottom-color: var(--success);
-        }
-
-        .code-input.wrong {
-            color: var(--bg);
-            background-color: var(--error);
-            border-bottom-color: var(--error);
-        }
-
-        /* Feedback Area */
-        .feedback {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 4px;
-            display: none; /* Nascosto di default */
-        }
-        .feedback.success { background: rgba(78, 201, 176, 0.2); border: 1px solid var(--success); }
-        .feedback.error { background: rgba(244, 135, 113, 0.2); border: 1px solid var(--error); }
-
-        .btn-group {
+        /* Footer e Feedback */
+        .card-footer {
+            padding: 20px;
+            background: #252526;
+            min-height: 60px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            margin-top: 20px;
         }
 
-        .stats {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: #888;
+        .feedback-msg { font-size: 0.95rem; max-width: 70%; }
+        
+        button {
+            background: var(--keyword);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
         }
-
+        button:hover { opacity: 0.9; }
+        
+        #error-banner {
+            background: var(--error);
+            color: white;
+            padding: 10px;
+            display: none;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Code Completion Dojo</h1>
+<div class="main-interface">
+    <div id="error-banner">Errore caricamento JSON. Assicurati di usare un Local Server (es. Live Server).</div>
 
-    <div class="controls">
-        <label for="langSelect">Argomento:</label>
-        <select id="langSelect" onchange="Quiz.setCategory(this.value)">
-            <option value="all">Misto (Tutto)</option>
-            <option value="html" selected>HTML5</option>
-            <option value="cpp">C++</option>
-        </select>
-        <div class="stats">Punteggio: <span id="score">0</span></div>
-    </div>
+    <header>
+        <h2 style="margin:0; color: var(--accent)">DevLogic <span style="font-weight:lighter">// Quiz</span></h2>
+        <div>
+            <select id="langSelect" onchange="Game.filter(this.value)">
+                <option value="all">Misto</option>
+                <option value="html">HTML Structure</option>
+                <option value="cpp">C++ Logic</option>
+            </select>
+            <span style="margin-left:15px; color:#888">Score: <strong id="scoreVal" style="color:white">0</strong></span>
+        </div>
+    </header>
 
-    <div class="quiz-container">
-        <div id="questionText" class="question-text">Caricamento...</div>
-
-        <div class="code-block" id="codeArea">
-            </div>
-
-        <div class="btn-group">
-            <button onclick="Quiz.check()" id="btnCheck" class="primary">Controlla Risposta</button>
-            <button onclick="Quiz.next()" id="btnNext" style="display:none">Prossima Domanda &rarr;</button>
+    <div class="code-card" id="gameArea">
+        <div class="card-header">
+            <span id="qCategory">LOADING...</span>
+            <span id="qId">#000</span>
+        </div>
+        
+        <div class="question-text" id="qText">
+            Caricamento dati dal file json...
         </div>
 
-        <div id="feedbackArea" class="feedback"></div>
+        <div class="code-display" id="codeBlock">
+            </div>
+
+        <div class="card-footer">
+            <div class="feedback-msg" id="feedback"></div>
+            <button id="actionBtn" onclick="Game.check()">VERIFICA</button>
+        </div>
     </div>
+</div>
 
 <script>
-    /* * ==========================================
-     * DATABASE DOMANDE (JSON EDITABILE)
-     * ==========================================
-     * Istruzioni per modificare:
-     * 1. 'category': 'html' o 'cpp'
-     * 2. 'code': Il codice. Usa "___" (tre underscore) dove vuoi il buco.
-     * 3. 'answer': La risposta corretta.
-     * 4. 'desc': Spiegazione che appare dopo la risposta.
-     */
-    
-    const QUESTIONS_DB = [
-        // --- HTML ---
-        {
-            id: 1,
-            category: "html",
-            question: "Completa il tag per inserire un'immagine con testo alternativo.",
-            code: "<img src='foto.jpg' ___='Descrizione foto'>",
-            answer: "alt",
-            desc: "L'attributo 'alt' è obbligatorio per l'accessibilità e la SEO."
-        },
-        {
-            id: 2,
-            category: "html",
-            question: "Specifica che il link deve aprirsi in una nuova scheda.",
-            code: "<a href='site.com' target='___'>Link Esterno</a>",
-            answer: "_blank",
-            desc: "_blank forza il browser ad aprire una nuova tab o finestra."
-        },
-        {
-            id: 3,
-            category: "html",
-            question: "Definisci la lingua principale del documento HTML.",
-            code: "<html ___='it'>\n  ...\n</html>",
-            answer: "lang",
-            desc: "L'attributo 'lang' aiuta i motori di ricerca e gli screen reader."
-        },
-        {
-            id: 4,
-            category: "html",
-            question: "Crea un campo di input che è obbligatorio compilare.",
-            code: "<input type='text' ___ >",
-            answer: "required",
-            desc: "L'attributo booleano 'required' impedisce l'invio del form se il campo è vuoto."
-        },
-        {
-            id: 5,
-            category: "html",
-            question: "Collega un foglio di stile esterno.",
-            code: "<link rel='stylesheet' ___='style.css'>",
-            answer: "href",
-            desc: "Nel tag <link>, 'href' specifica il percorso del file CSS."
-        },
+const Game = {
+    data: [],
+    pool: [],
+    current: null,
+    score: 0,
+    isCheckState: true, // true = pronto a verificare, false = pronto per next
 
-        // --- C++ (Esempi non banali) ---
-        {
-            id: 101,
-            category: "cpp",
-            question: "Stampa 'Hello' sulla console standard usando namespace std.",
-            code: "#include <iostream>\n\nint main() {\n  std::___ << \"Hello\";\n  return 0;\n}",
-            answer: "cout",
-            desc: "std::cout è l'oggetto standard per l'output stream in C++."
-        },
-        {
-            id: 102,
-            category: "cpp",
-            question: "Dichiara un puntatore a un intero.",
-            code: "int number = 10;\nint ___ ptr = &number;",
-            answer: "*",
-            desc: "L'asterisco (*) viene usato per dichiarare una variabile puntatore."
-        },
-        {
-            id: 103,
-            category: "cpp",
-            question: "Eredita pubblicamente da una classe base.",
-            code: "class Cane : ___ Animale {\n  // corpo classe\n};",
-            answer: "public",
-            desc: "In C++, devi specificare il modificatore di accesso (public, private, protected) per l'ereditarietà."
-        },
-        {
-            id: 104,
-            category: "cpp",
-            question: "Usa la keyword corretta per una funzione che non ritorna nulla.",
-            code: "___ stampaMenu() {\n  // codice...\n}",
-            answer: "void",
-            desc: "Void indica che la funzione non restituisce alcun valore."
-        },
-        {
-            id: 105,
-            category: "cpp",
-            question: "Allocazione dinamica di memoria per un intero.",
-            code: "int* p = ___ int;",
-            answer: "new",
-            desc: "L'operatore 'new' alloca memoria nell'heap."
+    init: async function() {
+        try {
+            // Fetch del file JSON esterno
+            const response = await fetch('questions.json');
+            if (!response.ok) throw new Error("HTTP error " + response.status);
+            this.data = await response.json();
+            
+            this.filter('all');
+        } catch (error) {
+            console.error(error);
+            document.getElementById('error-banner').style.display = 'block';
+            document.getElementById('qText').innerText = "Impossibile caricare 'questions.json'. Controlla la console.";
         }
-    ];
+    },
 
-    /* * ==========================================
-     * MOTORE DEL QUIZ (GAME ENGINE)
-     * ==========================================
-     */
-    const Quiz = {
-        pool: [],
-        currentQ: null,
-        score: 0,
+    filter: function(cat) {
+        if (cat === 'all') {
+            this.pool = [...this.data];
+        } else {
+            this.pool = this.data.filter(q => q.category === cat);
+        }
+        this.shuffle();
+        this.next();
+    },
+
+    shuffle: function() {
+        // Fisher-Yates shuffle
+        for (let i = this.pool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.pool[i], this.pool[j]] = [this.pool[j], this.pool[i]];
+        }
+    },
+
+    next: function() {
+        if (this.pool.length === 0) {
+            this.endGame();
+            return;
+        }
+
+        this.current = this.pool.pop();
+        this.isCheckState = true;
+
+        // UI Reset
+        document.getElementById('qCategory').innerText = this.current.category.toUpperCase();
+        document.getElementById('qId').innerText = "#" + this.current.id;
+        document.getElementById('qText').innerText = this.current.question;
+        document.getElementById('feedback').innerText = "";
         
-        // Inizializza o cambia categoria
-        setCategory: function(cat) {
-            // Filtra le domande
-            if (cat === 'all') {
-                this.pool = [...QUESTIONS_DB];
-            } else {
-                this.pool = QUESTIONS_DB.filter(q => q.category === cat);
-            }
-            
-            // Mischia (Shuffle Fisher-Yates)
-            for (let i = this.pool.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [this.pool[i], this.pool[j]] = [this.pool[j], this.pool[i]];
-            }
+        const btn = document.getElementById('actionBtn');
+        btn.innerText = "VERIFICA";
+        btn.style.backgroundColor = "var(--keyword)";
 
-            if (this.pool.length === 0) {
-                alert("Nessuna domanda trovata per questa categoria!");
-                return;
-            }
+        // Code rendering & Input injection
+        const parts = this.current.code.split('___');
+        const codeBlock = document.getElementById('codeBlock');
+        
+        // Escape HTML per sicurezza visuale
+        const p1 = this.escape(parts[0]);
+        const p2 = this.escape(parts[1]);
 
-            this.score = 0;
-            document.getElementById('score').innerText = 0;
+        codeBlock.innerHTML = `${p1}<input type="text" class="gap" id="userIn" autocomplete="off">${p2}`;
+        
+        // Auto-focus e Enter key
+        const input = document.getElementById('userIn');
+        input.focus();
+        input.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') Game.check();
+        });
+    },
+
+    check: function() {
+        if (!this.isCheckState) {
             this.next();
-        },
-
-        // Carica la prossima domanda
-        next: function() {
-            if (this.pool.length === 0) {
-                this.endGame();
-                return;
-            }
-
-            // Pesca l'ultima domanda dell'array mischiato
-            this.currentQ = this.pool.pop();
-
-            // Renderizza UI
-            document.getElementById('questionText').innerText = this.currentQ.question;
-            
-            // RESET UI
-            const codeContainer = document.getElementById('codeArea');
-            const feedback = document.getElementById('feedbackArea');
-            const btnCheck = document.getElementById('btnCheck');
-            const btnNext = document.getElementById('btnNext');
-
-            feedback.style.display = 'none';
-            feedback.className = 'feedback';
-            btnCheck.style.display = 'inline-block';
-            btnNext.style.display = 'none';
-
-            // Costruzione del Codice con Input
-            // Dividiamo la stringa dove c'è "___"
-            const parts = this.currentQ.code.split('___');
-            
-            // Creiamo HTML sicuro (escape caratteri speciali come < e >)
-            const safePart1 = this.escapeHtml(parts[0]);
-            const safePart2 = this.escapeHtml(parts[1]);
-
-            // Inseriamo l'input nel mezzo
-            codeContainer.innerHTML = `${safePart1}<input type="text" id="userInput" class="code-input" autocomplete="off" spellcheck="false">${safePart2}`;
-            
-            // Focus automatico sull'input e listener per tasto Enter
-            const input = document.getElementById('userInput');
-            input.focus();
-            input.addEventListener('keypress', function(e) {
-                if(e.key === 'Enter') Quiz.check();
-            });
-        },
-
-        // Verifica risposta
-        check: function() {
-            const input = document.getElementById('userInput');
-            const val = input.value.trim();
-            const feedback = document.getElementById('feedbackArea');
-            const btnCheck = document.getElementById('btnCheck');
-            const btnNext = document.getElementById('btnNext');
-
-            if(!val) return; // Ignora se vuoto
-
-            // Controllo Case Insensitive per HTML, Sensitive (solitamente) per C++
-            // Ma per semplicità didattica, facciamo case-insensitive o exact match a seconda del bisogno.
-            // Qui uso case-insensitive generale per tolleranza, ma puoi cambiarlo.
-            const isCorrect = val.toLowerCase() === this.currentQ.answer.toLowerCase();
-
-            input.disabled = true; // Blocca input
-            feedback.style.display = 'block';
-
-            if (isCorrect) {
-                // Successo
-                input.classList.add('correct');
-                feedback.classList.add('success');
-                feedback.classList.remove('error');
-                feedback.innerHTML = `<strong>Corretto!</strong> ${this.currentQ.desc}`;
-                this.score += 10;
-                document.getElementById('score').innerText = this.score;
-            } else {
-                // Errore
-                input.classList.add('wrong');
-                feedback.classList.add('error');
-                feedback.classList.remove('success');
-                feedback.innerHTML = `<strong>Sbagliato!</strong> La risposta corretta era <code>${this.currentQ.answer}</code>.<br><br><em>${this.currentQ.desc}</em>`;
-            }
-
-            // Scambio bottoni
-            btnCheck.style.display = 'none';
-            btnNext.style.display = 'inline-block';
-            btnNext.focus();
-        },
-
-        endGame: function() {
-            const container = document.querySelector('.quiz-container');
-            container.innerHTML = `
-                <div style="text-align:center">
-                    <h2>Quiz Completato!</h2>
-                    <p>Punteggio finale: <strong>${this.score}</strong></p>
-                    <button onclick="location.reload()" class="primary">Ricomincia</button>
-                </div>
-            `;
-        },
-
-        // Utility per sicurezza HTML
-        escapeHtml: function(text) {
-            if (!text) return "";
-            return text
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+            return;
         }
-    };
 
-    // Avvio iniziale (HTML default)
-    Quiz.setCategory('html');
+        const input = document.getElementById('userIn');
+        const feedback = document.getElementById('feedback');
+        const btn = document.getElementById('actionBtn');
+        const val = input.value.trim();
 
+        if(!val) return;
+
+        input.disabled = true;
+        
+        // Check Logic (Case sensitive per C++, Insensitive per HTML se vuoi, qui faccio tutto insensitive per UX)
+        if (val.toLowerCase() === this.current.answer.toLowerCase()) {
+            input.classList.add('correct');
+            feedback.innerHTML = `<span style="color:var(--success)">✔ Esatto!</span> ${this.current.desc}`;
+            this.score += 100;
+        } else {
+            input.classList.add('wrong');
+            feedback.innerHTML = `<span style="color:var(--error)">✘ Errato.</span> La risposta era <strong>${this.current.answer}</strong>.<br><br><em>${this.current.desc}</em>`;
+        }
+
+        document.getElementById('scoreVal').innerText = this.score;
+        
+        // Switch button state
+        this.isCheckState = false;
+        btn.innerText = "PROSSIMO >>";
+        btn.style.backgroundColor = "#333";
+    },
+
+    endGame: function() {
+        document.getElementById('gameArea').innerHTML = `
+            <div style="padding:40px; text-align:center;">
+                <h2 style="color:var(--success)">Sessione Completata</h2>
+                <p>Punteggio Finale: ${this.score}</p>
+                <button onclick="location.reload()" style="background:var(--accent); color:#000">RIAVVIA SISTEMA</button>
+            </div>
+        `;
+    },
+
+    escape: function(str) {
+        return str.replace(/&/g, "&amp;")
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;")
+                  .replace(/"/g, "&quot;");
+    }
+};
+
+// Start
+Game.init();
 </script>
 
 </body>
