@@ -1,0 +1,74 @@
+[
+  {
+    "id": 101,
+    "category": "html",
+    "question": "Struttura Tabella Complessa: Unisci due colonne nell'intestazione (livello 4 di annidamento).",
+    "code": "<table>\n  <thead>\n    <tr>\n      <th>Prodotto</th>\n      <th ___='2'>Dettagli & Prezzo</th>\n    </tr>\n  </thead>\n  <tbody>...</tbody>\n</table>",
+    "answer": "colspan",
+    "desc": "L'attributo 'colspan' permette a una cella di estendersi su più colonne, fondamentale per tabelle dati complesse."
+  },
+  {
+    "id": 102,
+    "category": "html",
+    "question": "Form Semantico: Raggruppa le opzioni del menu a tendina per categoria (livello 4 di annidamento).",
+    "code": "<form>\n  <fieldset>\n    <label>Destinazione:</label>\n    <select>\n      <___ label='Europa'>\n        <option value='it'>Italia</option>\n        <option value='fr'>Francia</option>\n      </___>\n    </select>\n  </fieldset>\n</form>",
+    "answer": "optgroup",
+    "desc": "Il tag <optgroup> crea una suddivisione logica visiva all'interno di un elemento <select>, migliorando la UX in liste lunghe."
+  },
+  {
+    "id": 103,
+    "category": "html",
+    "question": "Struttura Articolo: Inserisci la data di pubblicazione in formato leggibile dalla macchina (livello 3/4).",
+    "code": "<article>\n  <header>\n    <h1>Titolo News</h1>\n    <p>Pubblicato il: <time ___='2023-10-15'>15 Ottobre</time></p>\n  </header>\n  <section>...</section>\n</article>",
+    "answer": "datetime",
+    "desc": "L'attributo 'datetime' nel tag <time> fornisce un valore standardizzato (ISO 8601) per i motori di ricerca e calendar tool."
+  },
+  {
+    "id": 104,
+    "category": "html",
+    "question": "Multimedia Avanzato: Fornisci sottotitoli per un video (livello 3).",
+    "code": "<video controls>\n  <source src='movie.mp4' type='video/mp4'>\n  <___ src='subs_it.vtt' kind='subtitles' srclang='it' label='Italiano'>\n</video>",
+    "answer": "track",
+    "desc": "Il tag <track> specifica tracce di testo temporizzate (come sottotitoli o didascalie) per elementi multimediali <audio> o <video>."
+  },
+  {
+    "id": 201,
+    "category": "cpp",
+    "question": "Algoritmo Swap: Completa la logica per scambiare due valori usando i PUNTATORI.",
+    "code": "void swap(int* a, int* b) {\n    int temp = *a;\n    *a = *b;\n    *b = ___;\n}",
+    "answer": "temp",
+    "desc": "Per completare lo scambio, l'ultimo passaggio è assegnare al valore puntato da 'b' il valore originale di 'a' (salvato in temp)."
+  },
+  {
+    "id": 202,
+    "category": "cpp",
+    "question": "Bubble Sort Snippet: Logica del ciclo interno per confrontare elementi adiacenti.",
+    "code": "for (int i = 0; i < n-1; i++) {\n    for (int j = 0; j < n-i-1; j++) {\n        if (arr[j] > arr[___]) {\n            swap(&arr[j], &arr[j+1]);\n        }\n    }\n}",
+    "answer": "j+1",
+    "desc": "Nel Bubble Sort, confrontiamo l'elemento corrente (j) con il successivo immediato (j+1) per far 'galleggiare' il valore più alto."
+  },
+  {
+    "id": 203,
+    "category": "cpp",
+    "question": "Passaggio per Riferimento: Evita la copia della variabile nella funzione.",
+    "code": "void incrementa(int___ numero) {\n    numero++; // Modifica l'originale\n}\n\nint main() { int x = 5; incrementa(x); }",
+    "answer": "&",
+    "desc": "Il simbolo '&' nella firma della funzione indica che 'numero' è un riferimento (alias) alla variabile originale, non una copia."
+  },
+  {
+    "id": 204,
+    "category": "cpp",
+    "question": "Logica Ternaria: Assegna il massimo tra A e B in una sola riga.",
+    "code": "int a = 10, b = 20;\nint max = (a > b) ___ a : b;",
+    "answer": "?",
+    "desc": "L'operatore ternario si scrive 'condizione ? vero : falso'. Qui manca il punto interrogativo che inizia la valutazione."
+  },
+  {
+    "id": 205,
+    "category": "cpp",
+    "question": "Aritmetica dei Puntatori: Accedi al terzo elemento dell'array senza usare le parentesi quadre [].",
+    "code": "int arr[] = {10, 20, 30, 40};\nint* ptr = arr;\nint terzo = *(ptr + ___);",
+    "answer": "2",
+    "desc": "ptr punta all'indice 0. Aggiungendo 2 all'indirizzo (ptr + 2) e dereferenziando (*), otteniamo il valore all'indice 2 (il terzo elemento)."
+  }
+]
