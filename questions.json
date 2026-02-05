@@ -1,4 +1,84 @@
 [
+    {
+    "id": 1001,
+    "category": "cpp",
+    "question": "Toggle Booleano: Inverti lo stato della variabile (se era true diventa false, e viceversa).",
+    "code": "bool luceAccesa = true;\nluceAccesa = ___luceAccesa;",
+    "answer": "!",
+    "desc": "Riassegnare a una variabile booleana la sua negazione (!) è il metodo standard per creare un interruttore (toggle)."
+  },
+  {
+    "id": 1002,
+    "category": "html",
+    "question": "Input Sola Lettura: L'utente deve vedere il valore precompilato ma NON deve poterlo modificare (il dato viene comunque inviato).",
+    "code": "<input type='text' value='CodiceFisso' ___ >",
+    "answer": "readonly",
+    "desc": "A differenza di 'disabled', l'attributo 'readonly' impedisce la modifica ma include comunque il valore nell'invio del form."
+  },
+  {
+    "id": 1003,
+    "category": "cpp",
+    "question": "Ciclo Post-Condizionale: Esegui il blocco ALMENO una volta, poi controlla la condizione.",
+    "code": "do {\n    cout << \"Inserisci password\";\n} ___ (password != \"segreto\");",
+    "answer": "while",
+    "desc": "Il ciclo 'do-while' garantisce sempre la prima esecuzione del codice, a differenza del 'while' semplice che controlla prima."
+  },
+  {
+    "id": 1004,
+    "category": "html",
+    "question": "Entità Speciali: Visualizza il simbolo del Copyright (©) senza incollare il carattere speciale.",
+    "code": "<footer>\n  <p>&___; 2024 Mio Sito Web</p>\n</footer>",
+    "answer": "copy",
+    "desc": "Le entità HTML iniziano con & e finiscono con ;. '&copy;' è il codice standard per il simbolo ©."
+  },
+  {
+    "id": 1005,
+    "category": "cpp",
+    "question": "Caratteri ASCII: Passa dalla lettera 'A' alla lettera 'B' incrementando il valore numerico del char.",
+    "code": "char lettera = 'A';\nlettera___; // Ora vale 'B'",
+    "answer": "++",
+    "desc": "I char sono memorizzati come numeri interi (ASCII). Incrementando 'A' (65) di 1, si ottiene 'B' (66)."
+  },
+  {
+    "id": 1006,
+    "category": "html",
+    "question": "Struttura Tabella: Raggruppa le righe che contengono i dati effettivi (il corpo della tabella).",
+    "code": "<table>\n  <thead>...</thead>\n  <___>\n    <tr><td>Dato 1</td></tr>\n  </___>\n</table>",
+    "answer": "tbody",
+    "desc": "Il tag <tbody> separa semanticamente il contenuto principale della tabella dall'intestazione (<thead>) e dal piè di pagina (<tfoot>)."
+  },
+  {
+    "id": 1007,
+    "category": "cpp",
+    "question": "Assegnazione Moltiplicativa: Raddoppia il valore di 'x' in modo sintetico.",
+    "code": "int x = 10;\nx ___= 2; // x diventa 20",
+    "answer": "*",
+    "desc": "L'operatore '*=' moltiplica la variabile corrente per il valore a destra e riassegna il risultato (x = x * 2)."
+  },
+  {
+    "id": 1008,
+    "category": "html",
+    "question": "Navigazione Semantica: Definisci la sezione che contiene i link del menu principale.",
+    "code": "<___>\n  <ul>\n    <li><a href='/home'>Home</a></li>\n  </ul>\n</___>",
+    "answer": "nav",
+    "desc": "Il tag <nav> indica ai motori di ricerca e agli screen reader che quella sezione contiene i collegamenti di navigazione principali."
+  },
+  {
+    "id": 1009,
+    "category": "cpp",
+    "question": "Confronto Inclusivo: Verifica se l'età è maggiore O uguale a 18.",
+    "code": "if (eta ___ 18) {\n    cout << \"Accesso consentito\";\n}",
+    "answer": ">=",
+    "desc": "L'operatore '>=' restituisce true se il valore di sinistra è superiore o identico a quello di destra."
+  },
+  {
+    "id": 1010,
+    "category": "html",
+    "question": "Favicon: Collega l'icona che apparirà nella scheda del browser.",
+    "code": "<link rel='___' href='favicon.ico'>",
+    "answer": "icon",
+    "desc": "La relazione 'icon' (o 'shortcut icon') nel tag <link> definisce la piccola immagine visibile accanto al titolo della pagina."
+  },
   {
     "id": 701,
     "category": "cpp",
